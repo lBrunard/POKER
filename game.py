@@ -1,8 +1,8 @@
+from audioop import reverse
 import random
-from turtle import colormode
 
-from numpy import sort
-import poker
+from numpy import true_divide
+
 
 
 class carte:
@@ -83,8 +83,8 @@ class PokerHand:
                      "Flush", "Straight", "Double Pair", "Pair", "Carte Haute"]
     
     def __init__(self, table, hand):
-        self.hand_value = self.creat_value_list(table, hand)
-        self.hand_color = self.creat_color_list(table, hand)
+        self.hand_value, self.hand_color = self.creat_value_list(table, hand), self.creat_color_list(table, hand)
+        self.reversed_value = self.hand_value[::-1]
 
     def creat_value_list(self, table, hand):
         l_value = []
@@ -109,13 +109,28 @@ class PokerHand:
                 color = i
             return True
         return False
+    def is_straigth_flush(self):
+        first_value = self.reversed_value[0]
+        try_values = [i for i in range(first_value, first_value + 5)]
+        color = self.hand_color[0]
+        print(self.reversed_value)
+        print(try_values)
+        if self.reversed_value == try_values:
+            for i in self.hand_color:
+                if i != color:
+                    return False
+                color = i
+            return True
+        return False
+            
 
 
-roi = carte(0, 13)
-ass = carte(0, 14)
-dame = carte(0, 12)
-valet = carte(0, 11)
-dix = carte(0, 10)
+
+roi = carte(0, 6)
+ass = carte(0, 4)
+dame = carte(0, 5)
+valet = carte(0, 3)
+dix = carte(0, 2)
 l = [roi, ass,dame]
 l2 = [valet, dix]
         
@@ -131,7 +146,7 @@ print(t)
 print("\n")
 print(m1)
 
-print(m1_poker.is_flush_royal())
+print(m1_poker.is_straigth_flush())
 
 
 
