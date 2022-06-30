@@ -1,4 +1,5 @@
 import random
+from turtle import colormode
 
 from numpy import sort
 import poker
@@ -80,41 +81,59 @@ class main(paquet):
 class PokerHand:
     possible_hands = ["Royal Flush", "Straight Flush", "Carré", "Full House",
                      "Flush", "Straight", "Double Pair", "Pair", "Carte Haute"]
-
     
-    def creat_value_list(table, hand):
+    def __init__(self, table, hand):
+        self.hand_value = self.creat_value_list(table, hand)
+        self.hand_color = self.creat_color_list(table, hand)
+
+    def creat_value_list(self, table, hand):
         l_value = []
         [l_value.append(i)for i in hand.get_value_list()]
         [l_value.append(i)for i in table.get_value_list()]
         l_value.sort(reverse=True)
         return l_value
-    def creat_color_list(table, hand):
+    def creat_color_list(self, table, hand):
         l_color = []
         [l_color.append(i)for i in hand.get_color_list()]
         [l_color.append(i)for i in table.get_color_list()]
         l_color.sort(reverse=True)
         return l_color
 
-    def is_flush_royal():
+    def is_flush_royal(self):
+        values = [14, 13, 12, 11, 10]
+        color = self.hand_color[0]
+        if self.hand_value == values :
+            for i in self.hand_color:
+                if i != color:
+                    return False
+                color = i
+            return True
+        return False
 
 
+roi = carte(0, 13)
+ass = carte(0, 14)
+dame = carte(0, 12)
+valet = carte(0, 11)
+dix = carte(0, 10)
+l = [roi, ass,dame]
+l2 = [valet, dix]
         
 
 deck = paquet()
 deck.shuffle_deck()
 t = main(name="table")
 m1 = main(name="j1")
-m2 = main(name="j2")
-deck.give_cards(t, 3)
-deck.give_cards(m1, 2)
-deck.give_cards(m2, 2)
+[t.add_card(i)for i in l]
+[m1.add_card(i)for i in l2]
+m1_poker = PokerHand(t, m1)
 print(t)
 print("\n")
 print(m1)
-print("\n")
-print(m2)
-print("\n")
-PokerHand.creat_value_list(t, m1)
-PokerHand.creat_color_list(t, m1)
+
+print(m1_poker.is_flush_royal())
+
+
+
 
 
