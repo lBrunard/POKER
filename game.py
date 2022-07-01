@@ -113,8 +113,6 @@ class PokerHand:
         first_value = self.reversed_value[0]
         try_values = [i for i in range(first_value, first_value + 5)]
         color = self.hand_color[0]
-        print(self.reversed_value)
-        print(try_values)
         if self.reversed_value == try_values:
             for i in self.hand_color:
                 if i != color:
@@ -122,15 +120,35 @@ class PokerHand:
                 color = i
             return True
         return False
+    
+    def is_carre(self):
+        for i in range(2):
+            n = self.hand_value.count(self.hand_value[i])
+            if n  == 4:
+                return True
+        return False
+    
+    def is_full_house(self):
+        values = self.hand_value
+        print(values)
+        if values.count(values[0]) == 3 and values.count(values[4]) == 2:
+            return True
+        elif values.count(values[0]) == 2 and values.count(values[4]) == 3:
+            return True
+        else:
+            return False
+            
+        
+
             
 
 
 
-roi = carte(0, 6)
-ass = carte(0, 4)
-dame = carte(0, 5)
-valet = carte(0, 3)
-dix = carte(0, 2)
+roi = carte(0, 4)
+ass = carte(3, 3)
+dame = carte(2, 5)
+valet = carte(1, 3)
+dix = carte(0, 4)
 l = [roi, ass,dame]
 l2 = [valet, dix]
         
@@ -146,7 +164,7 @@ print(t)
 print("\n")
 print(m1)
 
-print(m1_poker.is_straigth_flush())
+print(m1_poker.is_full_house())
 
 
 
