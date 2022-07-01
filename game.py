@@ -79,8 +79,7 @@ class main(paquet):
         self.cartes = c
 
 class PokerHand:
-    possible_hands = ["Royal Flush", "Straight Flush", "Carré", "Full House",
-                     "Flush", "Straight", "Double Pair", "Pair", "Carte Haute"]
+    
     
     def __init__(self, table, hand):
         self.hand_value, self.hand_color = self.creat_value_list(table, hand), self.creat_color_list(table, hand)
@@ -99,11 +98,22 @@ class PokerHand:
         l_color.sort(reverse=True)
         return l_color
 
+    def check_combi(self):
+        possible_hands = [self.is_flush_royal,self.is_straigth_flush,self.is_carre,self.is_full_house,
+                    self.is_flush,self.is_straigth,self.is_brelan,self.is_double_pair,self.is_pair]
+        trad_combi = ["Flush Royal", "Suite Couleur", "Carré", "Full House", "Couleur", "Suite", "Brelan", "Double Pair", "Paire", "Carte Haute"]
+        l = [f() for f in possible_hands]
+        if all(i == False for i in self.hand_color):
+            print("Carte Haute")
+        else:
+            [print(trad_combi[i]) for i in range(len(l)) if l[i] ==  True]
+
     def is_flush_royal(self):
         values = [14, 13, 12, 11, 10]
         if self.hand_value == values :
             return all(i == self.hand_color[0] for i in self.hand_color)
         return False
+        
     def is_straigth_flush(self):
         first_value = self.reversed_value[0]
         try_values = [i for i in range(first_value, first_value + 5)]
@@ -120,7 +130,6 @@ class PokerHand:
     
     def is_full_house(self):
         values = self.hand_value
-        print(values)
         if values.count(values[0]) == 3 and values.count(values[4]) == 2:
             return True
         elif values.count(values[0]) == 2 and values.count(values[4]) == 3:
@@ -144,9 +153,11 @@ class PokerHand:
 
     def is_double_pair(self):
         c = 0
+        print(self.hand_value)
         for i in range(1, 5):
             if self.hand_value[i] == self.hand_value[i-1]:
-                c += 1
+                if self.hand_value[i] != self.hand_value[i-2]:
+                    c += 1
         return bool(c == 2)
 
     def is_pair(self):
@@ -155,13 +166,15 @@ class PokerHand:
             if self.hand_value[i] == self.hand_value[i-1]:
                 c += 1
         return bool(c == 1)
+
             
+    
 
 
 roi = carte(1, 2)
 ass = carte(1, 4)
-dame = carte(0, 6)
-valet = carte(2, 13)
+dame = carte(1, 6)
+valet = carte(1, 4)
 dix = carte(1, 4)
 l = [roi, ass,dame]
 l2 = [valet, dix]
@@ -178,7 +191,7 @@ print(t)
 print("\n")
 print(m1)
 
-print(m1_poker.is_pair())
+m1_poker.check_combi()
 
 
 
