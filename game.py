@@ -101,24 +101,14 @@ class PokerHand:
 
     def is_flush_royal(self):
         values = [14, 13, 12, 11, 10]
-        color = self.hand_color[0]
         if self.hand_value == values :
-            for i in self.hand_color:
-                if i != color:
-                    return False
-                color = i
-            return True
+            return all(i == self.hand_color[0] for i in self.hand_color)
         return False
     def is_straigth_flush(self):
         first_value = self.reversed_value[0]
         try_values = [i for i in range(first_value, first_value + 5)]
-        color = self.hand_color[0]
         if self.reversed_value == try_values:
-            for i in self.hand_color:
-                if i != color:
-                    return False
-                color = i
-            return True
+            return all(i == self.hand_color[0] for i in self.hand_color)
         return False
     
     def is_carre(self):
@@ -137,18 +127,42 @@ class PokerHand:
             return True
         else:
             return False
+
+    def is_flush(self):
+        return all(i == self.hand_color[0] for i in self.hand_color)
+
+    def is_straigth(self):
+        first_value = self.reversed_value[0]
+        return bool(self.reversed_value == [i for i in range(first_value, first_value + 5)])
+
+    def is_brelan(self):
+        for i in range(3):
+            n = self.hand_value.count(self.hand_value[i])
+            if n  == 3:
+                return True
+        return False
+
+    def is_double_pair(self):
+        c = 0
+        for i in range(1, 5):
+            if self.hand_value[i] == self.hand_value[i-1]:
+                c += 1
+        return bool(c == 2)
+
+    def is_pair(self):
+        c = 0
+        for i in range(1, 5):
+            if self.hand_value[i] == self.hand_value[i-1]:
+                c += 1
+        return bool(c == 1)
             
-        
-
-            
 
 
-
-roi = carte(0, 4)
-ass = carte(3, 3)
-dame = carte(2, 5)
-valet = carte(1, 3)
-dix = carte(0, 4)
+roi = carte(1, 2)
+ass = carte(1, 4)
+dame = carte(0, 6)
+valet = carte(2, 13)
+dix = carte(1, 4)
 l = [roi, ass,dame]
 l2 = [valet, dix]
         
@@ -164,7 +178,7 @@ print(t)
 print("\n")
 print(m1)
 
-print(m1_poker.is_full_house())
+print(m1_poker.is_pair())
 
 
 
